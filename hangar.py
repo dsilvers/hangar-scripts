@@ -65,6 +65,10 @@ def receive_setup(data):
 
 
 def write_switch_state(pin, state):
+    if state is True or state is False:
+        logging.info("Switch {} has state not currently set. Not writing switch state.".format(name))
+        return
+
     logging.info("Writing switch state on pin {} to {}".format(pin, state))
     io.setmode(io.BCM)
     io.setup(pin, io.OUT)
