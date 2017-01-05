@@ -74,8 +74,8 @@ def write_switch_state(pin, state, name=""):
 
     logging.info("Writing switch state on pin {} to {}".format(pin, state))
     io.setmode(io.BCM)
-    io.setup(pin, io.OUT)
-    io.output(pin, state)
+    io.setup(int(pin), io.OUT)
+    io.output(int(pin), state)
     io.cleanup()
 
 
