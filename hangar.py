@@ -65,7 +65,7 @@ def receive_setup(data):
 
 
 def write_switch_state(pin, state):
-    if state is True or state is False:
+    if state is not True and state is not False:
         logging.info("Switch {} has state not currently set. Not writing switch state.".format(name))
         return
 
