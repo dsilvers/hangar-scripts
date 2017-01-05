@@ -110,7 +110,7 @@ def send_temperature_data():
             probe_data.append({
                 'name': probe['name'],
                 'serial': probe['serial'],
-                'temperature':  
+                'temperature':  temperature,
             })
             logging.info("Probe {} on {} has temperature of {}'C").format(
                 probe['name'],
