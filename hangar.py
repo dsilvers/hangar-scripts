@@ -21,6 +21,7 @@ import RPi.GPIO as io
 import logging
 import sys
 from w1thermsensor import W1ThermSensor
+from w1thermsensor.core import W1ThermSensorError
 
 from config import *
 
@@ -76,14 +77,14 @@ def send_temperature_data():
 
     for probe in probes:
         try:
-            sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, probe.serial)
-        except W1ThermSensor.core.NoSensorFoundError:
+            sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, probe['serial'])
+        except W1ThermSensorError:
             sensor = False
 
         if sensor:
             probe_data.append({
-                'name': probe.name,
-                'serial': probe.serial,
+                'name': probe['name'],
+                'serial': probe['serial'],
                 'temperature': sensor.get_temperature()  
             })
     
