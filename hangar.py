@@ -28,7 +28,8 @@ from config import *
 
 root = logging.getLogger()
 root.setLevel(logging.INFO)
-log.addHandler(JournalHandler())
+root.addHandler(JournalHandler())
+
 
 pusher_client = pusher.Pusher(
   app_id = PUSHER_APP_ID,
