@@ -58,15 +58,18 @@ def receive_setup(data):
             switch['pin'],
             switch['state'],
         ))
-        write_switch_state(switch['pin'], switch['state'])
+        write_switch_state(switch['pin'], switch['state'], switch['name'])
 
     for probe in probes:
         logging.info("Probe {} has serial {}".format(probe.name, probe.serial))
 
 
-def write_switch_state(pin, state):
+def write_switch_state(pin, state, name=""):
     if state is not True and state is not False:
-        logging.info("Switch {} has state not currently set. Not writing switch state.".format(name))
+        logging.info("Switch {} has invalid state specifed. ('{}') Not writing switch state.".format(
+            name,
+            state,
+        ))
         return
 
     logging.info("Writing switch state on pin {} to {}".format(pin, state))
@@ -85,7 +88,7 @@ def receive_switch_state(data):
     pin = data['pin']
     state = data['state']
 
-    write_switch_state(pin, state)
+    write_switch_state(pin, state, name)
 
     pusher_client.trigger(['hangar-status'], 'switch-log', {
         'name': name,
