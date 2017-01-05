@@ -77,7 +77,7 @@ def send_temperature_data():
     for probe in probes:
         try:
             sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, probe.serial)
-        except W1thermsensor.core.NoSensorFoundError:
+        except W1ThermSensor.core.NoSensorFoundError:
             sensor = False
 
         if sensor:
