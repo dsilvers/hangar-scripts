@@ -18,10 +18,16 @@ import json
 import pusher
 import pusherclient
 import RPi.GPIO as io
+import logging
+import sys
 from w1thermsensor import W1ThermSensor
 
 from config import *
 
+root = logging.getLogger()
+root.setLevel(logging.INFO)
+ch = logging.StreamHandler(sys.stdout)
+root.addHandler(ch)
 
 pusher_client = pusher.Pusher(
   app_id = PUSHER_APP_ID,
@@ -34,20 +40,6 @@ pusher_client = pusher.Pusher(
 probes = False
 switches = False
 
-# Random temperature for outside world for demo. Delta for the max
-# amount of heat gain.
-outside_temp = random.randint(-30000, 30000) / 1000.0
-max_delta = 30.0
-
-
-"""
-import logging
-import sys
-root = logging.getLogger()
-root.setLevel(logging.INFO)
-ch = logging.StreamHandler(sys.stdout)
-root.addHandler(ch)
-"""
 
 def receive_setup(data):
     global switches

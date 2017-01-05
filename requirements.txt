@@ -1,0 +1,5 @@
+pusher==1.6
+pusherclient==0.3.0
+PySocks==1.6.5
+RPi.GPIO==0.6.2
+w1thermsensor==0.3.2
