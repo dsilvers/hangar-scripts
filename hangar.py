@@ -46,15 +46,26 @@ def receive_setup(data):
     global switches
     global probes
 
+    logging.info("Received setup data: {}".format(data))
+
     data = json.loads(data)
     switches = data['switches']
     probes = data['probes']
 
     for switch in switches:
+        logging.info("Switch {} is on pin {}, current state is {}".format(
+            switch['name'],
+            switch['pin'],
+            switch['state'],
+        ))
         write_switch_state(switch['pin'], switch['state'])
+
+    for probe in probes:
+        logging.info("Probe {} has serial {}".format(probe.name, probe.serial))
 
 
 def write_switch_state(pin, state):
+    logging.info("Writing switch state on pin {} to {}".format(pin, state))
     io.setmode(io.BCM)
     io.setup(pin, io.OUT)
     io.output(pin, state)
@@ -62,6 +73,8 @@ def write_switch_state(pin, state):
 
 
 def receive_switch_state(data):
+    logging.info("Receive switch state change: {}".format(data)
+
     data = json.loads(data)
 
     name = data['name']
@@ -86,14 +99,24 @@ def send_temperature_data():
         try:
             sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, probe['serial'])
         except W1ThermSensorError:
+            logging.info("No probe found for '{}' on serial {}".format(
+                probe['name'],
+                probe['serial'],
+            ))
             sensor = False
 
         if sensor:
+            temperature = sensor.get_temperature() 
             probe_data.append({
                 'name': probe['name'],
                 'serial': probe['serial'],
-                'temperature': sensor.get_temperature()  
+                'temperature':  
             })
+            logging.info("Probe {} on {} has temperature of {}'C").format(
+                probe['name'],
+                probe['serial'],
+                temperature,
+            ))
     
     pusher_client.trigger(['hangar-status'], 'temperature-log', probe_data)
 
@@ -104,6 +127,7 @@ def connect_handler(data):
     channel.bind('switches', receive_switch_state)
     channel.bind('setup-response', receive_setup)
 
+    logging.info("Sending setup request")
     pusher_client.trigger(['hangar-status'], 'setup-request', {
         'setup': 'please',
     })
