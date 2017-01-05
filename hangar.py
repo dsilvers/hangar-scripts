@@ -50,18 +50,29 @@ def receive_setup(data):
     switches = data['switches']
     probes = data['probes']
 
+    pusher_client.trigger('hangar-status', 'setup-request', {
+        'setup': 'please',
+    })
 
-def set_switch_status(data):
-    data = json.loads(data)
+    for switch in switches:
+        write_switch_state(switch['pin'], switch['state'])
 
-    name = data['name']
-    pin = data['pin']
-    state = False if data['state'] == "0" else True
 
+def write_switch_state(pin, state):
     io.setmode(io.BCM)
     io.setup(pin, io.OUT)
     io.output(pin, state)
     io.cleanup()
+
+
+def receive_switch_state(data):
+    data = json.loads(data)
+
+    name = data['name']
+    pin = data['pin']
+    state = data['state']
+
+    write_switch_state(pin, state)
 
     pusher_client.trigger('hangar-status', 'switch-log', {
         'name': name,
@@ -94,7 +105,7 @@ def send_temperature_data():
 
 def connect_handler(data):
     channel = pc.subscribe('hangar-status')
-    channel.bind('switches', set_switch_status)
+    channel.bind('switches', receive_switch_state)
     channel.bind('setup-response', receive_setup)
 
     pusher_client.trigger('hangar-status', 'setup-request', {
