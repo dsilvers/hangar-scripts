@@ -73,7 +73,7 @@ def write_switch_state(pin, state):
 
 
 def receive_switch_state(data):
-    logging.info("Receive switch state change: {}".format(data)
+    logging.info("Receive switch state change: {}".format(data))
 
     data = json.loads(data)
 
