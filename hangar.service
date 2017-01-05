@@ -1,0 +1,11 @@
+[Unit]
+Description=Hangar data reporting
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/hangar-scripts
+ExecStart=/home/pi/hangar-scripts/hangar.py
+
+[Install]
+WantedBy=network-online.target

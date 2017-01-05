@@ -20,6 +20,7 @@ import pusherclient
 import RPi.GPIO as io
 import logging
 import sys
+from systemd.journal import JournalHandler
 from w1thermsensor import W1ThermSensor
 from w1thermsensor.core import W1ThermSensorError
 
@@ -27,8 +28,7 @@ from config import *
 
 root = logging.getLogger()
 root.setLevel(logging.INFO)
-ch = logging.StreamHandler(sys.stdout)
-root.addHandler(ch)
+log.addHandler(JournalHandler())
 
 pusher_client = pusher.Pusher(
   app_id = PUSHER_APP_ID,

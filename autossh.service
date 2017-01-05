@@ -1,0 +1,10 @@
+[Unit]
+Description=Keeps a tunnel to host open
+After=network.target
+
+[Service]
+User=root
+ExecStart=/usr/bin/autossh -M 0 -N -q -o "ServerAliveInterval 60" -o "ServerAliveCountMax 3" -p 22 -l autossh USERNAME@HOSTNAME -R 22222:127.0.0.1:22 -i /root/.ssh/id_rsa
+
+[Install]
+WantedBy=network-online.target
