@@ -70,7 +70,7 @@ def receive_switch_state(data):
 
     write_switch_state(pin, state)
 
-    pusher_client.trigger('hangar-status', 'switch-log', {
+    pusher_client.trigger(['hangar-status'], 'switch-log', {
         'name': name,
         'pin': pin,
         'state': state,
@@ -95,7 +95,7 @@ def send_temperature_data():
                 'temperature': sensor.get_temperature()  
             })
     
-    pusher_client.trigger('hangar-status', 'temperature-log', probe_data)
+    pusher_client.trigger(['hangar-status'], 'temperature-log', probe_data)
 
 
 
@@ -104,7 +104,7 @@ def connect_handler(data):
     channel.bind('switches', receive_switch_state)
     channel.bind('setup-response', receive_setup)
 
-    pusher_client.trigger('hangar-status', 'setup-request', {
+    pusher_client.trigger(['hangar-status'], 'setup-request', {
         'setup': 'please',
     })
 
