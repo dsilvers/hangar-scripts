@@ -61,7 +61,7 @@ def receive_setup(data):
         write_switch_state(switch['pin'], switch['state'], switch['name'])
 
     for probe in probes:
-        logging.info("Probe {} has serial {}".format(probe.name, probe.serial))
+        logging.info("Probe {} has serial {}".format(probe['name'], probe['serial']))
 
 
 def write_switch_state(pin, state, name=""):
