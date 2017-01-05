@@ -31,8 +31,8 @@ root.addHandler(ch)
 
 pusher_client = pusher.Pusher(
   app_id = PUSHER_APP_ID,
-  key = PUSHER_KEY,
-  secret = PUSHER_SECRET,
+  key = PUSHER_APP_KEY,
+  secret = PUSHER_APP_SECRET,
   ssl = True
 )
 
@@ -101,7 +101,7 @@ def connect_handler(data):
     })
 
 
-pc = pusherclient.Pusher(PUSHER_KEY)
+pc = pusherclient.Pusher(PUSHER_APP_KEY)
 pc.connection.bind('pusher:connection_established', connect_handler)
 pc.connect()
 
