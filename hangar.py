@@ -76,7 +76,7 @@ def write_switch_state(pin, state, name=""):
     io.setmode(io.BCM)
     io.setup(int(pin), io.OUT)
     io.output(int(pin), state)
-    io.cleanup()
+    logging.info("Done writing switch state on pin {} to {}".format(pin, state))
 
 
 def receive_switch_state(data):
