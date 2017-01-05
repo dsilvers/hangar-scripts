@@ -50,10 +50,6 @@ def receive_setup(data):
     switches = data['switches']
     probes = data['probes']
 
-    pusher_client.trigger('hangar-status', 'setup-request', {
-        'setup': 'please',
-    })
-
     for switch in switches:
         write_switch_state(switch['pin'], switch['state'])
 
