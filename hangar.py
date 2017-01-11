@@ -103,6 +103,9 @@ def send_temperature_data():
 
     probe_data = []
 
+    if probes is False:
+        return
+
     for probe in probes:
         try:
             sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, probe['serial'])
