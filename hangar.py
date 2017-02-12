@@ -63,7 +63,7 @@ def receive_setup(data):
 
     for probe in data['probes']:
         if len(probe['serial']) <= 4:
-            logging.info("Probe {} [{}] does not appear to be actual hardware.")
+            logging.info("Probe {} [{}] does not appear to be actual hardware.".format(probe['name'], probe['serial']))
         else:
             probes.append(probe)
             logging.info("Probe {} has serial {}".format(probe['name'], probe['serial']))
