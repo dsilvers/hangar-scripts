@@ -51,7 +51,7 @@ def receive_setup(data):
 
     data = json.loads(data)
     switches = data['switches']
-    probes = data['probes']
+    probes = []
 
     for switch in switches:
         logging.info("Switch {} is on pin {}, current state is {}".format(
@@ -61,8 +61,12 @@ def receive_setup(data):
         ))
         write_switch_state(switch['pin'], switch['state'], switch['name'])
 
-    for probe in probes:
-        logging.info("Probe {} has serial {}".format(probe['name'], probe['serial']))
+    for probe in data['probes']:
+        if len(probe['serial']) <= 4:
+            logging.info("Probe {} [{}] does not appear to be actual hardware.")
+        else:
+            probes.append(probe)
+            logging.info("Probe {} has serial {}".format(probe['name'], probe['serial']))
 
 
 def write_switch_state(pin, state, name=""):
